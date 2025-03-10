@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\WarehouseRequest;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,8 @@ class WarehouseController extends Controller
     public function index()
     {
         $warehouses = Warehouse::paginate(10);
-        return Inertia::render('Admin/Warehouse/Index', compact('warehouses'));
+        return response()->json($warehouses);
+        // return Inertia::render('Admin/Warehouse/Index', compact('warehouses'));
     }
 
     /**
@@ -29,11 +31,16 @@ class WarehouseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(WarehouseRequest $request)
     {
         $warehouse = Warehouse::create($request->validated());
 
-        return to_route('admin.warehouses.index')->with('success', 'Warehouse created successfully!');
+        return response()->json([
+            'message' => 'Warehouse created successfully!',
+            'warehouse' => $warehouse
+        ], 201);
+
+        // return to_route('admin.warehouses.index')->with('success', 'Warehouse created successfully!');
     }
 
     /**
@@ -41,7 +48,8 @@ class WarehouseController extends Controller
      */
     public function show(Warehouse $warehouse)
     {
-        return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
+        return response()->json($warehouse);
+        // return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
     }
 
     /**
@@ -55,11 +63,16 @@ class WarehouseController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Warehouse $warehouse)
+    public function update(WarehouseRequest $request, Warehouse $warehouse)
     {
         $warehouse->update($request->validated());
 
-        return to_route('admin.warehouses.index')->with('success', 'Warehouse updated successfully!');
+        return response()->json([
+            'message' => 'Warehouse updated successfully!',
+            'warehouse' => $warehouse
+        ]);
+
+        // return to_route('admin.warehouses.index')->with('success', 'Warehouse updated successfully!');
     }
 
     /**
@@ -69,6 +82,7 @@ class WarehouseController extends Controller
     {
         $warehouse->delete();
 
-        return to_route('admin.warehouses.index')->with('success', 'Warehouse deleted successfully!');
+        return response()->json(['message' => 'Warehouse deleted successfully!']);
+        // return to_route('admin.warehouses.index')->with('success', 'Warehouse deleted successfully!');
     }
 }
