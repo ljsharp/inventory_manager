@@ -8,5 +8,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resources([
         'warehouses' => Admin\WarehouseController::class,
+        'products' => Admin\ProductController::class,
     ]);
 });
