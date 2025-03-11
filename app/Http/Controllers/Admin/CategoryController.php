@@ -14,7 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        //
+        return inertia('Admin/Categories/Index', [
+            'categories' => Category::latest()->get(),
+        ]);
     }
 
     /**
@@ -22,7 +24,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return response()->json(['categories' => Category::select('id', 'name')->get()]);
     }
 
     /**
@@ -30,8 +32,9 @@ class CategoryController extends Controller
      */
     public function store(CategoryRequest $request)
     {
-        $category = Category::create($request->validated());
-        return response()->json(['message' => 'Category created successfully.', 'category' => $category], 201);
+        Category::create($request->validated());
+
+        return back()->with('success', 'Category created successfully.');
     }
 
     /**
@@ -55,8 +58,9 @@ class CategoryController extends Controller
      */
     public function update(CategoryRequest $request, Category $category)
     {
-        $category = $category->update($request->validated());
-        return response()->json(['message' => 'Category updated successfully.', 'category' => $category]);
+        $category->update($request->validated());
+
+        return back()->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -65,6 +69,6 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         $category->delete();
-        return response()->json(['message' => 'Category deleted successfully.']);
+        return back()->with('success', 'Category deleted successfully.');
     }
 }
