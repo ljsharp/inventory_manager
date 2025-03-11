@@ -10,6 +10,7 @@ import Dialog from 'primevue/dialog';
 import Tag from 'primevue/tag';
 import Toast from 'primevue/toast';
 import { computed, reactive, ref } from 'vue';
+import EditForm from './EditForm.vue';
 import Form from './Form.vue';
 
 const props = defineProps<{ products: any; filters: { search: string | null } }>();
@@ -17,6 +18,7 @@ const selectedProduct = ref<Partial<Product>>({});
 
 loadToast();
 const showDialog = ref(false);
+const showEditDialog = ref(false);
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Dashboard',
@@ -27,9 +29,16 @@ const breadcrumbs: BreadcrumbItem[] = [
 const data = reactive({
     search: props.filters.search,
 });
+
+const openDialog = () => {
+    selectedProduct.value = {};
+    showDialog.value = true;
+    showEditDialog.value = false;
+};
 const editProduct = (product: any) => {
     selectedProduct.value = product;
-    showDialog.value = true;
+    showDialog.value = false;
+    showEditDialog.value = true;
 };
 
 // Delete product
@@ -37,6 +46,12 @@ const deleteProduct = (id: number) => {
     if (confirm('Are you sure you want to delete this product?')) {
         router.delete(route('admin.products.destroy', id));
     }
+};
+
+const onClose = () => {
+    selectedProduct.value = {};
+    showDialog.value = false;
+    showEditDialog.value = false;
 };
 
 // Handle pagination
@@ -65,7 +80,7 @@ const onPageChange = (event: DataTablePageEvent) => {
             <div class="p-2">
                 <h2 class="mb-4 text-xl font-bold">Products</h2>
 
-                <Button size="small" label="New Product" @click="showDialog = true" />
+                <Button size="small" label="New Product" @click="openDialog" />
 
                 <DataTable :value="products.data" paginator :rows="products.per_page" :totalRecords="products.total" @page="onPageChange">
                     <Column field="name" header="Product Name" />
@@ -79,7 +94,7 @@ const onPageChange = (event: DataTablePageEvent) => {
                                             .map((attr) => attr)
                                             .join(', ')
                                     }}
-                                    - ${{ variant.price }}
+                                    - GHS{{ variant.price }}
                                 </Tag>
                             </span>
                             <span v-else>No variants</span>
@@ -101,7 +116,18 @@ const onPageChange = (event: DataTablePageEvent) => {
                     class="p-dialog-lg"
                     style="width: 30vw; max-width: 800px; height: auto"
                 >
-                    <Form :product="selectedProduct ?? null" @close="showDialog = false" />
+                    <Form :product="selectedProduct ?? null" @close="onClose" />
+                </Dialog>
+
+                <Dialog
+                    v-model:visible="showEditDialog"
+                    modal
+                    :draggable="false"
+                    header="Product Form"
+                    class="p-dialog-lg"
+                    style="width: 30vw; max-width: 800px; height: auto"
+                >
+                    <EditForm :product="selectedProduct ?? null" @close="onClose" />
                 </Dialog>
             </div>
         </div>
