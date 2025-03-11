@@ -58,7 +58,7 @@ export interface ProductVariant {
     id?: number;
     product_id: number;
     name: string;
-    attributes: Record<string, any>; // Example: { color: 'red', size: 'M' }
+    attributes: Record<string, any>;
     sku?: string;
 }
 
