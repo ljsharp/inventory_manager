@@ -146,8 +146,7 @@ const submit = () => {
             </div>
 
             <ul>
-                <!-- <li v-for="(values, name) in productForm.attributes" :key="name">{{ name }}: {{ values.join(', ') }}</li> -->
-                <li v-for="(values, name) in productForm.attributes" :key="name">{{ values.name }}: {{ values.values.join(', ') }}</li>
+                <li v-for="(values, name) in productForm.attributes" :key="name">{{ name }}: {{ values.join(', ') }}</li>
             </ul>
 
             <!-- Variants Section -->
