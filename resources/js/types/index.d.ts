@@ -52,14 +52,14 @@ export interface Product {
     sku?: string;
     price?: number;
     category_id?: number;
-    variants?: ProductVariant[];
+    variants?: ProductVariant[] | [];
     attributes: Record<string, any>;
 }
 
 export interface ProductVariant {
     id?: number;
-    product_id: number;
-    name: string;
+    product_id?: number;
+    name?: string;
     price?: number;
     attributes?: Record<string, any>;
     sku?: string;
