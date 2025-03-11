@@ -28,6 +28,8 @@ class ProductRequest extends FormRequest
             'description' => 'nullable|string',
             'attributes' => 'nullable|array',
             'variants' => 'nullable|array',
+            'variants.*.id' => 'nullable|exists:product_variants,id',
+            'variants.*.sku' => 'nullable|exists:product_variants,sku',
             'variants.*.attributes' => 'required_with:variants|array',
             'variants.*.price' => 'required|numeric|min:1',
         ];
