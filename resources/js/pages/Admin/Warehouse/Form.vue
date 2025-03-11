@@ -53,13 +53,13 @@ const submit = () => {
         <div class="flex flex-col gap-4">
             <div class="flex flex-col items-start gap-1">
                 <label>Name</label>
-                <InputText v-model="warehouseForm.name" class="w-full" />
+                <InputText size="small" v-model="warehouseForm.name" class="w-full" />
                 <Message size="small" v-if="warehouseForm.errors.name" severity="error">{{ warehouseForm.errors.name }}</Message>
             </div>
 
             <div class="flex flex-col items-start gap-1">
                 <label>Location</label>
-                <InputText v-model="warehouseForm.location" class="w-full" />
+                <InputText size="small" v-model="warehouseForm.location" class="w-full" />
                 <Message size="small" v-if="warehouseForm.errors.location" severity="error">{{ warehouseForm.errors.location }}</Message>
             </div>
 

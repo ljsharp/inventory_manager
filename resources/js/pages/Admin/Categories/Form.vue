@@ -49,7 +49,7 @@ const submit = () => {
         <div class="flex flex-col gap-4">
             <div class="flex flex-col items-start gap-1">
                 <label>Name</label>
-                <InputText v-model="categoryForm.name" class="w-full" />
+                <InputText size="small" v-model="categoryForm.name" class="w-full" />
                 <Message size="small" v-if="categoryForm.errors.name" severity="error">{{ categoryForm.errors.name }}</Message>
             </div>
 

@@ -107,7 +107,7 @@ const submit = () => {
         <div class="flex flex-col gap-4">
             <div class="flex flex-col items-start gap-1">
                 <label>Name</label>
-                <InputText v-model="productForm.name" class="w-full" />
+                <InputText size="small" v-model="productForm.name" class="w-full" />
                 <Message size="small" v-if="productForm.errors.name" severity="error">{{ productForm.errors.name }}</Message>
             </div>
 
@@ -139,8 +139,8 @@ const submit = () => {
 
             <div class="flex w-full flex-col items-start gap-3">
                 <div class="flex w-full items-center gap-3">
-                    <InputText v-model="attributeName" placeholder="(e.g., color)" class="w-full" />
-                    <InputText v-model="attributeValues" placeholder="(e.g., red,blue,white)" class="w-full" />
+                    <InputText size="small" v-model="attributeName" placeholder="(e.g., color)" class="w-full" />
+                    <InputText size="small" v-model="attributeValues" placeholder="(e.g., red,blue,white)" class="w-full" />
                 </div>
                 <Button @click.prevent="addAttribute" size="small">Add Attribute</Button>
             </div>
@@ -157,7 +157,7 @@ const submit = () => {
                 <div v-for="(variant, index) in productForm.variants" :key="index" class="flex w-full flex-col gap-3 border p-2">
                     <div class="flex flex-col items-start gap-1">
                         <label>Attribute</label>
-                        <InputText v-model="variant.name" class="w-full" readonly />
+                        <InputText size="small" v-model="variant.name" class="w-full" readonly />
                     </div>
 
                     <div class="flex flex-col items-start gap-1">
