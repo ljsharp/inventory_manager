@@ -5,6 +5,7 @@ import { createInertiaApp } from '@inertiajs/vue3';
 import Aura from '@primeuix/themes/aura';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import PrimeVue from 'primevue/config';
+import ToastService from 'primevue/toastservice';
 import type { DefineComponent } from 'vue';
 import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
@@ -43,6 +44,7 @@ createInertiaApp({
                     },
                 },
             })
+            .use(ToastService)
             .mount(el);
     },
     progress: {

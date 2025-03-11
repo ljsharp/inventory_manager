@@ -36,3 +36,11 @@ export interface User {
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
+
+export interface Warehouse {
+    id?: number;
+    name?: string;
+    location?: string;
+    contact_info?: string;
+    capacity?: number;
+}

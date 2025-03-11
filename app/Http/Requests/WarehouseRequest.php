@@ -22,9 +22,10 @@ class WarehouseRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255|unique:warehouses,name',
+            'id' => 'nullable|exists:warehouses,id',
+            'name' => 'required|string|max:255|unique:warehouses,name,' . $this->get('id'),
             'location' => 'required|string|max:500',
-            'contact_information' => 'nullable|string|max:255',
+            'contact_info' => 'nullable|string|max:255',
             'capacity' => 'required|integer|min:1',
         ];
     }
