@@ -44,3 +44,27 @@ export interface Warehouse {
     contact_info?: string;
     capacity?: number;
 }
+
+export interface Product {
+    id?: number;
+    name: string;
+    description?: string;
+    sku?: string;
+    category_id: number;
+    variants?: ProductVariant[];
+}
+
+export interface ProductVariant {
+    id?: number;
+    product_id: number;
+    name: string;
+    attributes: Record<string, any>; // Example: { color: 'red', size: 'M' }
+    sku?: string;
+}
+
+export interface Stock {
+    warehouse_id: number;
+    product_id?: number;
+    product_variant_id?: number;
+    quantity: number;
+}
