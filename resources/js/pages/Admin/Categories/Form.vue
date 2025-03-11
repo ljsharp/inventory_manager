@@ -50,13 +50,13 @@ const submit = () => {
             <div class="flex flex-col items-start gap-1">
                 <label>Name</label>
                 <InputText v-model="categoryForm.name" class="w-full" />
-                <Message v-if="categoryForm.errors.name" severity="error">{{ categoryForm.errors.name }}</Message>
+                <Message size="small" v-if="categoryForm.errors.name" severity="error">{{ categoryForm.errors.name }}</Message>
             </div>
 
             <div class="flex flex-col items-start gap-1">
                 <label>Description</label>
                 <Textarea v-model="categoryForm.description" class="w-full" />
-                <Message v-if="categoryForm.errors.description" severity="error">{{ categoryForm.errors.description }}</Message>
+                <Message size="small" v-if="categoryForm.errors.description" severity="error">{{ categoryForm.errors.description }}</Message>
             </div>
 
             <Button label="Save" icon="pi pi-save" class="mt-4" type="submit" />

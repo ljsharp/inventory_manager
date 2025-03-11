@@ -15,13 +15,33 @@ class Product extends Model
     protected static function boot()
     {
         parent::boot();
-        static::creating(function ($product) {
-            do {
-                $sku = 'PROD-' . strtoupper(Str::random(5));
-            } while (self::where('sku', $sku)->exists());
 
-            $product->sku = $sku;
+        // Generate SKU when creating a new product
+        static::creating(function ($product) {
+            $product->sku = self::generateProductSku($product->name);
         });
+
+        // Regenerate SKU when updating the product name
+        static::updating(function ($product) {
+            if ($product->isDirty('name')) {
+                $product->sku = self::generateProductSku($product->name);
+            }
+        });
+    }
+
+    /**
+     * Generate a unique SKU based on the product name.
+     */
+    private static function generateProductSku($productName)
+    {
+        $baseSku = strtoupper(Str::slug($productName, '-'));
+        $sku = "{$baseSku}-" . strtoupper(Str::random(4));
+
+        while (self::where('sku', $sku)->exists()) {
+            $sku = "{$baseSku}-" . strtoupper(Str::random(4));
+        }
+
+        return $sku;
     }
 
     public function variants()
@@ -37,5 +57,10 @@ class Product extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    public function attributes()
+    {
+        return $this->hasMany(ProductAttribute::class);
     }
 }

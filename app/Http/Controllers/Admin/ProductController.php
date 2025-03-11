@@ -22,7 +22,11 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $products = $this->productService->getProducts();
+        $filters = [
+            'search' => request('search'),
+        ];
+        return inertia('Admin/Products/Index', compact('products', 'filters'));
     }
 
     /**
@@ -40,7 +44,8 @@ class ProductController extends Controller
     {
         $product = $this->productService->createProduct($request->validated());
 
-        return response()->json(['message' => 'Product created successfully!', 'product' => $product], 201);
+        return back()->with('success', 'Product created successfully.');
+        // return response()->json(['message' => 'Product created successfully!', 'product' => $product], 201);
     }
 
     /**
@@ -56,7 +61,8 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        return response()->json($product);
+        $product->load('variants', 'attributes');
+        return response()->json(["product" => $product]);
     }
 
     /**
@@ -66,7 +72,8 @@ class ProductController extends Controller
     {
         $updatedProduct = $this->productService->updateProduct($product, $request->validated());
 
-        return response()->json(['message' => 'Product updated successfully.']);
+        return back()->with('success', 'Product updated successfully.');
+        // return response()->json(['message' => 'Product updated successfully.']);
     }
 
     /**
@@ -76,6 +83,7 @@ class ProductController extends Controller
     {
         $this->productService->deleteProduct($product);
 
-        return response()->json(['message' => 'Product deleted successfully.']);
+        return back()->with('success', 'Product deleted successfully.');
+        // return response()->json(['message' => 'Product deleted successfully.']);
     }
 }

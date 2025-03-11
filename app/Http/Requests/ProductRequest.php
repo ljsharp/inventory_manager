@@ -24,11 +24,12 @@ class ProductRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'category_id' => 'required|exists:categories,id',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|min:1',
+            'description' => 'nullable|string',
+            'attributes' => 'nullable|array',
             'variants' => 'nullable|array',
-            'variants.*.sku' => 'required_with:variants|string|unique:product_variants,sku',
             'variants.*.attributes' => 'required_with:variants|array',
-            'variants.*.price' => 'nullable|numeric|min:0',
+            'variants.*.price' => 'required|numeric|min:1',
         ];
     }
 
@@ -48,6 +49,11 @@ class ProductRequest extends FormRequest
             'price.required' => 'The product price is required.',
             'price.numeric' => 'The price must be a valid number.',
             'price.min' => 'The price must be at least 0.',
+            'variants.*.attributes.required_with' => 'Each variant must have attributes when variants are provided.',
+            'variants.*.attributes.array' => 'The attributes must be an array.',
+            'variants.*.price.required' => 'Each variant must have a price.',
+            'variants.*.price.numeric' => 'The price must be a number.',
+            'variants.*.price.min' => 'The price must be at least 1.',
         ];
     }
 }

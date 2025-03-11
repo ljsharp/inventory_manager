@@ -1,5 +1,6 @@
 import '../css/app.css';
 import '../css/styles.scss';
+import './bootstrap';
 
 import { createInertiaApp } from '@inertiajs/vue3';
 import Aura from '@primeuix/themes/aura';

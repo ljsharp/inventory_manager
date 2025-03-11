@@ -47,24 +47,34 @@ export interface Warehouse {
 
 export interface Product {
     id?: number;
-    name: string;
+    name?: string;
     description?: string;
     sku?: string;
-    category_id: number;
+    price?: number;
+    category_id?: number;
     variants?: ProductVariant[];
+    attributes: Record<string, any>;
 }
 
 export interface ProductVariant {
     id?: number;
     product_id: number;
     name: string;
-    attributes: Record<string, any>;
+    price?: number;
+    attributes?: Record<string, any>;
     sku?: string;
 }
 
 export interface Stock {
-    warehouse_id: number;
+    id?: number;
+    warehouse_id?: number;
     product_id?: number;
     product_variant_id?: number;
     quantity: number;
+}
+
+export interface Category {
+    id?: number;
+    name?: string;
+    description?: string;
 }
