@@ -109,13 +109,36 @@ class ProductService
                 $this->storeAttributes($product, $data['attributes']);
             }
 
+            $existingVariants = $product->variants->keyBy(fn($variant) => json_encode($variant->attributes));
+
+            // // Update or Create Variants
+            // if (isset($data['variants'])) {
+            //     foreach ($data['variants'] as $variantData) {
+            //         ProductVariant::updateOrCreate(
+            //             ['sku' => $variantData['sku']],
+            //             array_merge($variantData, ['product_id' => $product->id])
+            //         );
+            //     }
+            // }
+
             // Update or Create Variants
             if (isset($data['variants'])) {
                 foreach ($data['variants'] as $variantData) {
-                    ProductVariant::updateOrCreate(
-                        ['sku' => $variantData['sku']],
-                        array_merge($variantData, ['product_id' => $product->id])
-                    );
+                    if (!empty($variantData['id'])) {
+                        // Find variant by ID and update
+                        $variant = ProductVariant::find($variantData['id']);
+                        if ($variant) {
+                            $variant->update($variantData);
+                        }
+                    } else {
+                        // Create new variant if no ID is provided
+                        $variant = $product->variants()->create([
+                            'attributes' => $variantData['attributes'],
+                            'price' => $variantData['price'] ?? $data['price'] ?? null,
+                            'sku' => $variantData['sku'] ?? '',
+                        ]);
+                        $this->initializeStock($product, $variant);
+                    }
                 }
             }
 
