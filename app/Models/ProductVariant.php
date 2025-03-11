@@ -12,7 +12,11 @@ class ProductVariant extends Model
 
     protected $fillable = ['product_id', 'attributes', 'sku', 'price'];
 
-    protected $casts = ['attributes' => 'array'];
+    protected $casts = [
+        'attributes' => 'array',
+    ];
+
+    protected $appends = ['name'];
 
     protected static function boot()
     {
@@ -38,19 +42,17 @@ class ProductVariant extends Model
     {
         $productSku = $variant->product->sku;
 
-        // Decode attributes JSON to an associative array
         $attributes = is_string($variant->attributes)
             ? json_decode($variant->attributes, true)
             : $variant->attributes;
 
         info($variant->attributes);
         info($attributes);
-        // Ensure attributes is an array before processing
+
         if (!is_array($attributes)) {
             $attributes = [];
         }
 
-        // Extract the first three letters of each attribute value
         $attributeValues = collect(json_decode($attributes['attributes'], true))
             ->map(fn($value) => is_string($value) ? strtoupper(substr($value, 0, 2)) : '')
             ->filter()
@@ -73,5 +75,35 @@ class ProductVariant extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function getNameAttribute()
+    {
+        $attributes = $this->getAttribute('attributes');
+
+        if (is_string($attributes)) {
+            $attributes = json_decode($attributes, true);
+        }
+
+        if (!is_array($attributes)) {
+            info("Invalid attributes: " . json_encode($attributes));
+            return "Invalid Name";
+        }
+
+        ksort($attributes);
+
+        info($attributes);
+
+        $flattenedAttributes = [];
+        foreach ($attributes as $key => $value) {
+            $flattenedAttributes[] = ucwords($value);
+        }
+
+        return implode(' ', $flattenedAttributes);
+    }
+
+    public function stocks()
+    {
+        return $this->hasMany(Stock::class);
     }
 }
