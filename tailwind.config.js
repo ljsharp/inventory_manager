@@ -1,3 +1,4 @@
+import PrimeUI from 'tailwindcss-primeui';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
@@ -73,5 +74,5 @@ export default {
             },
         },
     },
-    plugins: [require('tailwindcss-animate')],
+    plugins: [require('tailwindcss-animate'), PrimeUI],
 };
