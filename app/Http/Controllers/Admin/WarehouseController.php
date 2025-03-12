@@ -17,7 +17,7 @@ class WarehouseController extends Controller
     {
         $warehouses = Warehouse::select('id', 'name', 'location', 'contact_info', 'capacity')->get();
         // return response()->json($warehouses);
-        return Inertia::render('Admin/Warehouse/Index', compact('warehouses'));
+        return Inertia::render('admin/Warehouse/Index', compact('warehouses'));
     }
 
     /**
@@ -25,7 +25,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        // return Inertia::render('Admin/Warehouse/Create');
+        // return Inertia::render('admin/Warehouse/Create');
     }
 
     /**
@@ -50,7 +50,7 @@ class WarehouseController extends Controller
     public function show(Warehouse $warehouse)
     {
         return response()->json($warehouse);
-        // return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
+        // return Inertia::render('admin/Warehouse/Show', compact('warehouse'));
     }
 
     /**
@@ -59,7 +59,7 @@ class WarehouseController extends Controller
     public function edit(Warehouse $warehouse)
     {
         return response()->json($warehouse);
-        // return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
+        // return Inertia::render('admin/Warehouse/Show', compact('warehouse'));
     }
 
     /**
