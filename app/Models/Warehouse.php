@@ -18,11 +18,25 @@ class Warehouse extends Model
 
     public function products()
     {
-        return $this->hasManyThrough(Product::class, Stock::class);
+        return $this->hasManyThrough(
+            Product::class,
+            Stock::class,
+            'warehouse_id',
+            'id',
+            'id',
+            'product_id'
+        );
     }
 
     public function productVariants()
     {
-        return $this->hasManyThrough(ProductVariant::class, Stock::class);
+        return $this->hasManyThrough(
+            ProductVariant::class,
+            Stock::class,
+            'warehouse_id',
+            'id',
+            'id',
+            'product_sku_id'
+        );
     }
 }
