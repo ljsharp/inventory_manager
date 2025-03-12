@@ -44,7 +44,7 @@ const deleteCategory = (id: number) => {
     <Head title="Categories" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="mx-auto my-4 flex h-full w-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg md:w-2/3">
+        <div class="flex flex-col flex-1 w-full h-full gap-4 p-4 mx-auto my-4 border-t-4 shadow-lg rounded-xl border-primary-400 md:w-2/3">
             <div class="p-2">
                 <h2 class="mb-4 text-xl font-bold">Categories</h2>
 
