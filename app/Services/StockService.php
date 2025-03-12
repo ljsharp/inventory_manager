@@ -22,10 +22,27 @@ class StockService
     {
         return DB::transaction(function () use ($data) {
             // Find stock based on product or variant
-            $stock = Stock::where('warehouse_id', $data['warehouse_id'])
-                ->where('product_id', $data['product_id'])
-                ->where('product_variant_id', $data['product_variant_id'] ?? null)
-                ->firstOrFail();
+            info($data);
+            $query = Stock::where('warehouse_id', $data['warehouse_id'])
+                ->has('product')
+                ->where('product_id', $data['product_id']);
+
+            if ($data['product_variant_id']) {
+                info("called");
+                $query->has('productVariant')->where('product_variant_id', $data['product_variant_id']);
+            } else {
+                info("no variant");
+            }
+
+            $stock = $query->first();
+
+            if (!$stock) {
+                $stock = Stock::with('product', 'productVariant', 'warehouse')->firstOrCreate([
+                    'warehouse_id' => $data['warehouse_id'],
+                    'product_id' => $data['product_id'],
+                    'product_variant_id' => $data['product_variant_id'] ?? null,
+                ], ['quantity' => 0]);
+            }
 
             // Store previous balance
             $previousBalance = $stock->quantity;
