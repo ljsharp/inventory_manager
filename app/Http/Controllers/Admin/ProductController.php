@@ -27,7 +27,7 @@ class ProductController extends Controller
         $filters = [
             'search' => request('search'),
         ];
-        return inertia('Admin/Products/Index', compact('products', 'filters'));
+        return inertia('admin/Products/Index', compact('products', 'filters'));
     }
 
     /**
