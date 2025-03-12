@@ -14,7 +14,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return inertia('Admin/Categories/Index', [
+        return inertia('admin/Categories/Index', [
             'categories' => Category::latest()->get(),
         ]);
     }
