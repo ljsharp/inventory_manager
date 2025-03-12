@@ -16,8 +16,24 @@ class DatabaseSeeder extends Seeder
         // User::factory(10)->create();
 
         User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+            'name' => 'Admin',
+            'email' => 'admin@inventorymanager.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        User::factory()->create([
+            'name' => 'Staff',
+            'email' => 'staff@inventorymanager.com',
+            'password' => bcrypt('password'),
+        ]);
+
+        $this->call([
+            WarehouseSeeder::class,
+            CategorySeeder::class,
+            ProductSeeder::class,
+            StockSeeder::class,
+            StockTransferSeeder::class,
+            StockTransactionSeeder::class,
         ]);
     }
 }
