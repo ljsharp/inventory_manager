@@ -61,7 +61,7 @@ class StockAvailability
         $missingStockQuery = Stock::query()->with(['product:id,name', 'warehouse:id,name,location', 'productVariant']);
         $hasVariants
             ? $missingStockQuery->has('productVariant')->whereNotIn('product_variant_id', $existingProductIds)
-            : $missingStockQuery->whereNotIn('product_id', $existingProductIds);
+            : $missingStockQuery->doesntHave('productVariant')->whereNotIn('product_id', $existingProductIds);
 
         // Group missing stock data by product name (and variant if applicable)
         $groupedMissingStock = $missingStockQuery->get(['id', 'product_id', 'warehouse_id', 'quantity', 'product_variant_id'])
