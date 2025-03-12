@@ -7,7 +7,7 @@ import Dropdown from 'primevue/dropdown';
 import InputNumber from 'primevue/inputnumber';
 import Toast from 'primevue/toast';
 import { useToast } from 'primevue/usetoast';
-import { computed, onMounted, ref } from 'vue';
+import { computed, onActivated, ref } from 'vue';
 
 const toast = useToast();
 
@@ -36,7 +36,7 @@ const variants = computed(() => {
     return products.value.find((p) => p.id === form.product_id)?.variants ?? [];
 });
 
-onMounted(fetchData);
+onActivated(fetchData);
 
 const submitForm = () => {
     if (!form.product_id || !form.warehouse_id) {
