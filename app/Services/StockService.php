@@ -149,6 +149,8 @@ class StockService
                         'stock_transfer_id' => $stockTransfer->id,
                         'previous_balance' => $sourcePreviousBalance,
                         'current_balance' => $sourceStock->quantity,
+                        'created_at' => $stockTransfer->created_at,
+                        'updated_at' => $stockTransfer->created_at,
                     ],
                     [
                         'stock_id' => $destinationStock->id,
@@ -158,6 +160,8 @@ class StockService
                         'stock_transfer_id' => $stockTransfer->id,
                         'previous_balance' => $destinationPreviousBalance,
                         'current_balance' => $destinationStock->quantity,
+                        'created_at' => $stockTransfer->created_at,
+                        'updated_at' => $stockTransfer->created_at,
                     ],
                 ];
 
