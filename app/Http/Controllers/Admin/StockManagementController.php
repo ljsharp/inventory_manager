@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use App\Http\Requests\StockRequest;
+use App\Http\Requests\StockTransferRequest;
+use App\Models\Product;
+use App\Models\Warehouse;
+use App\Services\StockService;
+use Illuminate\Http\Request;
+
+class StockManagementController extends Controller
+{
+    public function getProductWarehouses()
+    {
+        return response()->json([
+            'products' => Product::select(['id', 'name'])->with('variants')->get(),
+            'warehouses' => Warehouse::select('id', 'name')->with('products.variants')->get(),
+        ]);
+    }
+
+
+    public function stockAdjustment(StockRequest $request)
+    {
+        $validated = $request->validated();
+        $stockTransaction = StockService::handleStockAdjustment($validated);
+
+        return back()->with('success', 'Stock adjusted successfully');
+    }
+
+    public function stockTransfers(StockTransferRequest $request)
+    {
+        $validated = $request->validated();
+        StockService::transferStocks($validated);
+
+        return back()->with('success', 'Stocks transferred successfully');
+    }
+}
