@@ -78,26 +78,46 @@ class StockService
      * @param array $data
      * @throws ValidationException
      */
-    static public function transferStocks(array $data): void
+    static public function transferStocks(array $data, $sourceWarehouseId, $destinationWarehouseId): void
     {
-        DB::transaction(function () use ($data) {
-            foreach ($data as $transfer) {
-                // Find stocks in source and destination warehouses
-                $sourceStock = Stock::with('product', 'productVariant', 'warehouse')->where('warehouse_id', $transfer['source_warehouse_id'])
-                    ->where('product_id', $transfer['product_id'])
-                    ->where('product_variant_id', $transfer['product_variant_id'] ?? null)
-                    ->firstOrFail();
+        DB::transaction(function () use ($data, $sourceWarehouseId, $destinationWarehouseId) {
+            foreach ($data['transfers'] as $transfer) {
+                $productId = $transfer['product_id'];
+                $variantId = $transfer['product_variant_id'] ?? null;
+                $quantity = (int) $transfer['quantity'];
+                $transferredBy = auth()->id();
 
-                $destinationStock = Stock::with('product', 'productVariant', 'warehouse')->firstOrCreate([
-                    'warehouse_id' => $transfer['destination_warehouse_id'],
-                    'product_id' => $transfer['product_id'],
-                    'product_variant_id' => $transfer['product_variant_id'] ?? null,
-                ], ['quantity' => 0]);
+                // Find source stock
+                $sourceStock = Stock::where([
+                    'warehouse_id' => $sourceWarehouseId,
+                    'product_id' => $productId,
+                    'product_variant_id' => $variantId,
+                ])->firstOrFail();
 
                 // Ensure source warehouse has enough stock
-                if ($sourceStock->quantity < (int) $transfer['quantity']) {
+                if ($sourceStock->quantity < $quantity) {
+                    $name = $sourceStock->product->name;
+                    if ($sourceStock->productVariant) {
+                        $name .= " " . $sourceStock->productVariant->name;
+                    }
                     throw ValidationException::withMessages([
-                        'quantity' => "Not enough stock ({$sourceStock->product->name}) available in source warehouse.",
+                        'message' => "Not enough stock ({$name}) available in the source warehouse.",
+                    ]);
+                }
+
+                // Find or create destination stock
+                $destinationStock = Stock::where([
+                    'warehouse_id' => $destinationWarehouseId,
+                    'product_id' => $productId,
+                    'product_variant_id' => $variantId,
+                ])->first();
+
+                if (!$destinationStock) {
+                    $destinationStock = Stock::create([
+                        'warehouse_id' => $destinationWarehouseId,
+                        'product_id' => $productId,
+                        'product_variant_id' => $variantId,
+                        'quantity' => 0,
                     ]);
                 }
 
@@ -106,39 +126,42 @@ class StockService
                 $destinationPreviousBalance = $destinationStock->quantity;
 
                 // Perform stock transfer
-                $sourceStock->decrement('quantity', $transfer['quantity']);
-                $destinationStock->increment('quantity', $transfer['quantity']);
+                $sourceStock->decrement('quantity', $quantity);
+                $destinationStock->increment('quantity', $quantity);
 
                 // Create stock transfer record
                 $stockTransfer = StockTransfer::create([
-                    'product_id' => $transfer['product_id'],
-                    'product_variant_id' => $transfer['product_variant_id'] ?? null,
-                    'source_warehouse_id' => $transfer['source_warehouse_id'],
-                    'destination_warehouse_id' => $transfer['destination_warehouse_id'],
-                    'quantity' => $transfer['quantity'],
-                    'transferred_by' => $transfer['transferred_by'],
+                    'product_id' => $productId,
+                    'product_variant_id' => $variantId,
+                    'source_warehouse_id' => $sourceWarehouseId,
+                    'destination_warehouse_id' => $destinationWarehouseId,
+                    'quantity' => $quantity,
+                    'transferred_by' => $transferredBy,
                 ]);
 
                 // Log stock transactions
-                StockTransaction::create([
-                    'stock_id' => $sourceStock->id,
-                    'quantity' => $transfer['quantity'],
-                    'stock_in' => false,
-                    'stock_out' => true,
-                    'stock_transfer_id' => $stockTransfer->id,
-                    'previous_balance' => $sourcePreviousBalance,
-                    'current_balance' => $sourceStock->quantity,
-                ]);
+                $transactions = [
+                    [
+                        'stock_id' => $sourceStock->id,
+                        'quantity' => $quantity,
+                        'stock_in' => false,
+                        'stock_out' => true,
+                        'stock_transfer_id' => $stockTransfer->id,
+                        'previous_balance' => $sourcePreviousBalance,
+                        'current_balance' => $sourceStock->quantity,
+                    ],
+                    [
+                        'stock_id' => $destinationStock->id,
+                        'quantity' => $quantity,
+                        'stock_in' => true,
+                        'stock_out' => false,
+                        'stock_transfer_id' => $stockTransfer->id,
+                        'previous_balance' => $destinationPreviousBalance,
+                        'current_balance' => $destinationStock->quantity,
+                    ],
+                ];
 
-                StockTransaction::create([
-                    'stock_id' => $destinationStock->id,
-                    'quantity' => $transfer['quantity'],
-                    'stock_in' => true,
-                    'stock_out' => false,
-                    'stock_transfer_id' => $stockTransfer->id,
-                    'previous_balance' => $destinationPreviousBalance,
-                    'current_balance' => $destinationStock->quantity,
-                ]);
+                StockTransaction::insert($transactions); // Bulk insert for efficiency
             }
         });
     }
