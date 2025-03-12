@@ -44,6 +44,11 @@ class Product extends Model
         return $sku;
     }
 
+    public function stockTransactions()
+    {
+        return $this->hasManyThrough(StockTransaction::class, Stock::class);
+    }
+
     public function variants()
     {
         return $this->hasMany(ProductVariant::class);

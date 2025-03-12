@@ -106,4 +106,9 @@ class ProductVariant extends Model
     {
         return $this->hasMany(Stock::class);
     }
+
+    public function stockTransactions()
+    {
+        return $this->hasManyThrough(StockTransaction::class, Stock::class);
+    }
 }
