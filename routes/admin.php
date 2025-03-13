@@ -33,4 +33,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('stock.adjustments');
     Route::post('/stock-transfers', [Admin\StockManagementController::class, 'stockTransfers'])
         ->name('stock.transfers');
+
+    // Users
+    Route::resource('/user', Admin\UserController::class)->except('create', 'show', 'edit');
+    Route::post('/user/destroy-bulk', [Admin\UserController::class, 'destroyBulk'])->name('user.destroy-bulk');
+
+    // Roles and Permissions
+    Route::resource('/role', Admin\RoleController::class)->except('create', 'show', 'edit');
+    Route::resource('/permission', Admin\PermissionController::class)->except('create', 'show', 'edit');
 });
