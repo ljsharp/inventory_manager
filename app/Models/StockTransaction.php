@@ -19,9 +19,28 @@ class StockTransaction extends Model
         'current_balance',
     ];
 
+    protected $casts = [
+        "quantity" => "integer",
+        "previous_balance" => "integer",
+        "current_balance" => "integer",
+        "stock_out" => "boolean",
+        "stock_out" => "boolean",
+    ];
+
+    protected $appends = ['product_name'];
+
     public function stock()
     {
         return $this->belongsTo(Stock::class);
+    }
+
+    public function getProductNameAttribute()
+    {
+        $name = $this->stock->product->name;
+        if ($this->stock->productVariant) {
+            $name .= ' ' . $this->stock->productVariant->name;
+        }
+        return $name;
     }
 
     public function stockTransfer()

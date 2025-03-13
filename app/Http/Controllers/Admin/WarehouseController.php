@@ -15,9 +15,9 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        $warehouses = Warehouse::paginate(10);
-        return response()->json($warehouses);
-        // return Inertia::render('Admin/Warehouse/Index', compact('warehouses'));
+        $warehouses = Warehouse::select('id', 'name', 'location', 'contact_info', 'capacity')->get();
+        // return response()->json($warehouses);
+        return Inertia::render('admin/Warehouse/Index', compact('warehouses'));
     }
 
     /**
@@ -25,7 +25,7 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Admin/Warehouse/Create');
+        // return Inertia::render('admin/Warehouse/Create');
     }
 
     /**
@@ -33,14 +33,15 @@ class WarehouseController extends Controller
      */
     public function store(WarehouseRequest $request)
     {
+        info($request->all());
         $warehouse = Warehouse::create($request->validated());
 
-        return response()->json([
-            'message' => 'Warehouse created successfully!',
-            'warehouse' => $warehouse
-        ], 201);
+        // return response()->json([
+        //     'message' => 'Warehouse created successfully!',
+        //     'warehouse' => $warehouse
+        // ], 201);
 
-        // return to_route('admin.warehouses.index')->with('success', 'Warehouse created successfully!');
+        return to_route('admin.warehouses.index')->with('success', 'Warehouse created successfully!');
     }
 
     /**
@@ -49,7 +50,7 @@ class WarehouseController extends Controller
     public function show(Warehouse $warehouse)
     {
         return response()->json($warehouse);
-        // return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
+        // return Inertia::render('admin/Warehouse/Show', compact('warehouse'));
     }
 
     /**
@@ -57,7 +58,8 @@ class WarehouseController extends Controller
      */
     public function edit(Warehouse $warehouse)
     {
-        return Inertia::render('Admin/Warehouse/Show', compact('warehouse'));
+        return response()->json($warehouse);
+        // return Inertia::render('admin/Warehouse/Show', compact('warehouse'));
     }
 
     /**
@@ -67,12 +69,12 @@ class WarehouseController extends Controller
     {
         $warehouse->update($request->validated());
 
-        return response()->json([
-            'message' => 'Warehouse updated successfully!',
-            'warehouse' => $warehouse
-        ]);
+        // return response()->json([
+        //     'message' => 'Warehouse updated successfully!',
+        //     'warehouse' => $warehouse
+        // ]);
 
-        // return to_route('admin.warehouses.index')->with('success', 'Warehouse updated successfully!');
+        return to_route('admin.warehouses.index')->with('success', 'Warehouse updated successfully!');
     }
 
     /**
@@ -82,7 +84,7 @@ class WarehouseController extends Controller
     {
         $warehouse->delete();
 
-        return response()->json(['message' => 'Warehouse deleted successfully!']);
-        // return to_route('admin.warehouses.index')->with('success', 'Warehouse deleted successfully!');
+        // return response()->json(['message' => 'Warehouse deleted successfully!']);
+        return to_route('admin.warehouses.index')->with('success', 'Warehouse deleted successfully!');
     }
 }

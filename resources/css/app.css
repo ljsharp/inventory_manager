@@ -90,3 +90,24 @@ html {
         @apply bg-background text-foreground;
     }
 }
+
+.translate-enter-active,
+.translate-leave-active {
+    transition: all 0.4s ease;
+}
+
+.translate-enter-from,
+.translate-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}
+
+.list-enter-active,
+.list-leave-active {
+    transition: all 0.1s ease;
+}
+.list-enter-from,
+.list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+}

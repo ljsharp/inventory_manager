@@ -42,4 +42,9 @@ class StockTransfer extends Model
     {
         return $this->belongsTo(User::class, 'transferred_by');
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(StockTransaction::class);
+    }
 }

@@ -30,4 +30,9 @@ class Stock extends Model
     {
         return $this->belongsTo(ProductVariant::class);
     }
+
+    public function transactions()
+    {
+        return $this->hasMany(StockTransaction::class);
+    }
 }
