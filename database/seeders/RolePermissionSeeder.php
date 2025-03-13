@@ -36,7 +36,22 @@ class RolePermissionSeeder extends Seeder
 
             // User & Role Management
             'view users',
+            'create user',
+            'update user',
+            'delete user',
             'assign roles',
+            'create role',
+            'update role',
+            'delete role',
+            'assign permissions',
+            'view permissions',
+            'create permission',
+            'update permission',
+            'delete permission',
+
+            // Other permissions
+            'view dashboard',
+            'view reports',
         ];
 
         // Create permissions
