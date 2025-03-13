@@ -4,7 +4,7 @@ import NavUser from '@/components/NavUser.vue';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/vue3';
-import { Blocks, ChartBarStacked, LayoutGrid, ShoppingBasket, Warehouse } from 'lucide-vue-next';
+import { Blocks, ChartBarStacked, FolderLock, LayoutGrid, ShieldCheck, ShoppingBasket, Users, Warehouse } from 'lucide-vue-next';
 import AppLogo from './AppLogo.vue';
 
 const mainNavItems: NavItem[] = [
@@ -32,6 +32,21 @@ const mainNavItems: NavItem[] = [
         title: 'Stocks',
         href: '/admin/stocks',
         icon: Blocks,
+    },
+    {
+        title: 'Roles',
+        href: '/admin/role',
+        icon: ShieldCheck,
+    },
+    {
+        title: 'Permissions',
+        href: '/admin/permission',
+        icon: FolderLock,
+    },
+    {
+        title: 'Users',
+        href: '/admin/user',
+        icon: Users,
     },
 ];
 </script>
