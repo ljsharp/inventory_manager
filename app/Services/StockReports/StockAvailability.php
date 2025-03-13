@@ -95,7 +95,7 @@ class StockAvailability
          */
         $finalStockReport = collect($mergedStockData)->map(fn($stock) => [
             ...$stock,
-            'available_stock' => $stock['current_stock'], // Available stock is the same as current stock
+            'available_stock' => $stock['current_stock'],
         ])->sortByDesc('available_stock')->values()->toArray();
 
         // Compute total available stock

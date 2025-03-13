@@ -165,7 +165,7 @@ class StockService
                     ],
                 ];
 
-                StockTransaction::insert($transactions); // Bulk insert for efficiency
+                StockTransaction::insert($transactions);
             }
         });
     }
