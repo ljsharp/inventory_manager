@@ -79,7 +79,7 @@ watch(
 
 <template>
     <AppLayout>
-        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 bg-white p-6 shadow-md md:w-[65%]">
+        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 p-6 shadow-md dark:bg-surface-900 md:w-[65%]">
             <Create :show="data.createOpen" @close="data.createOpen = false" :roles="roles" :title="props.title" />
             <Edit :show="data.editOpen" @close="data.editOpen = false" :roles="roles" :user="data.user" :title="props.title" />
             <Button size="small" v-show="can(['create user'])" label="Create" @click="data.createOpen = true" icon="pi pi-plus" />

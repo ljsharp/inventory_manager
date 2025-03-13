@@ -17,6 +17,13 @@ class RolePermissionSeeder extends Seeder
     {
         // Define permissions
         $permissions = [
+            // Category Permissions
+            'create category',
+            'view category',
+            'update category',
+            'delete category',
+
+
             // Product permissions
             'create product',
             'view product',
@@ -24,8 +31,8 @@ class RolePermissionSeeder extends Seeder
             'delete product',
 
             // Stock permissions
-            'view stock',
-            'update stock',
+            'view stock availability',
+            'adjust stock',
             'transfer stock',
 
             // Warehouse permissions
@@ -69,7 +76,7 @@ class RolePermissionSeeder extends Seeder
         // Assign specific permissions to Staff
         $staffRole->syncPermissions([
             'view product',
-            'view stock',
+            'view stock availability',
             'transfer stock',
             'view warehouse',
         ]);

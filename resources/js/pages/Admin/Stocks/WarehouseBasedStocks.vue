@@ -70,17 +70,17 @@ onActivated(() => {
 </script>
 
 <template>
-    <div class="mx-5 my-4 flex h-full w-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg">
+    <div class="flex flex-col flex-1 w-full h-full gap-4 p-4 mx-5 my-4 border-t-4 shadow-lg rounded-xl border-primary-400 dark:bg-surface-900">
         <Head title="Warehouse Based Stocks" />
         <div class="p-4">
-            <div class="mb-4 grid grid-cols-1 gap-4 md:grid-cols-4">
+            <div class="grid grid-cols-1 gap-4 mb-4 md:grid-cols-4">
                 <!-- Date Range Filter -->
                 <div>
-                    <label class="mb-1 block text-sm font-semibold">Start Date</label>
+                    <label class="block mb-1 text-sm font-semibold">Start Date</label>
                     <Calendar v-model="filters.start_date" dateFormat="yy-mm-dd" class="w-full" @date-select="fetchWarehouseBasedStocks" />
                 </div>
                 <div>
-                    <label class="mb-1 block text-sm font-semibold">End Date</label>
+                    <label class="block mb-1 text-sm font-semibold">End Date</label>
                     <Calendar v-model="filters.end_date" dateFormat="yy-mm-dd" class="w-full" @date-select="fetchWarehouseBasedStocks" />
                 </div>
             </div>

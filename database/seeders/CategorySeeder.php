@@ -15,8 +15,11 @@ class CategorySeeder extends Seeder
     public function run(): void
     {
         Category::insert([
-            ['name' => 'Electronics', 'description' => 'Electronic devices and gadgets', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
-            ['name' => 'Clothing', 'description' => 'Men and women clothing', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Electronics', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Clothing', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Footwear', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Mobile Devices', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
+            ['name' => 'Accessories', 'created_at' => Carbon::now(), 'updated_at' => Carbon::now()],
         ]);
     }
 }

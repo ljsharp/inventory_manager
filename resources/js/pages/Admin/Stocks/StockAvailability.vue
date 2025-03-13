@@ -49,7 +49,7 @@ onActivated(fetchStocks);
 </script>
 
 <template>
-    <div class="mx-5 my-4 flex h-full w-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg">
+    <div class="mx-5 my-4 flex h-full w-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg dark:bg-surface-900">
         <Head title="Stock Availability" />
         <div class="p-4">
             <!-- Filters -->

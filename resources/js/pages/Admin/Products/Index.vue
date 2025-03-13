@@ -76,11 +76,13 @@ const onPageChange = (event: DataTablePageEvent) => {
     <Head title="Products" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="mx-auto my-4 flex h-full w-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg md:w-2/3">
+        <div
+            class="flex flex-col flex-1 w-full h-full gap-4 p-4 mx-auto my-4 border-t-4 shadow-lg rounded-xl border-primary-400 dark:bg-surface-900 md:w-2/3"
+        >
             <div class="p-2">
                 <h2 class="mb-4 text-xl font-bold">Products</h2>
 
-                <Button size="small" label="New Product" @click="openDialog" />
+                <Button v-if="can(['create product'])" size="small" label="New Product" @click="openDialog" />
 
                 <DataTable :value="products.data" paginator :rows="products.per_page" :totalRecords="products.total" @page="onPageChange">
                     <Column field="name" header="Product Name" />
@@ -102,8 +104,13 @@ const onPageChange = (event: DataTablePageEvent) => {
                     </Column>
                     <Column header="Actions">
                         <template #body="{ data }">
-                            <Button icon="pi pi-pencil" class="p-button-text" @click="editProduct(data)" />
-                            <Button icon="pi pi-trash" class="p-button-text p-button-danger" @click="deleteProduct(data.id)" />
+                            <Button v-if="can(['update product'])" icon="pi pi-pencil" class="p-button-text" @click="editProduct(data)" />
+                            <Button
+                                v-if="can(['delete product'])"
+                                icon="pi pi-trash"
+                                class="p-button-text p-button-danger"
+                                @click="deleteProduct(data.id)"
+                            />
                         </template>
                     </Column>
                 </DataTable>

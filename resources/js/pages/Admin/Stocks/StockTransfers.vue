@@ -112,9 +112,9 @@ onDeactivated(form.reset);
 </script>
 
 <template>
-    <div class="mx-auto mt-6 w-full max-w-4xl rounded-xl border-t-4 border-primary-400 bg-white p-6 shadow-md">
+    <div class="w-full max-w-4xl p-6 mx-auto mt-6 bg-white border-t-4 shadow-md rounded-xl border-primary-400 dark:bg-surface-900">
         <!-- Warehouse Selection -->
-        <div class="mb-4 grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-2 gap-4 mb-4">
             <div>
                 <label class="block text-sm font-medium text-gray-700">Source Warehouse</label>
                 <Dropdown
@@ -182,12 +182,12 @@ onDeactivated(form.reset);
         </DataTable>
 
         <!-- Add Row Button -->
-        <div class="mt-4 flex justify-between">
+        <div class="flex justify-between mt-4">
             <Button label="Add Transfer Row" icon="pi pi-plus" class="p-button-outlined" @click="addTransfer" />
         </div>
 
         <!-- Submit Button -->
-        <Button label="Submit Transfers" class="mt-4 w-full" @click="submitForm" />
+        <Button label="Submit Transfers" class="w-full mt-4" @click="submitForm" />
 
         <!-- Toast Notifications -->
         <Toast />

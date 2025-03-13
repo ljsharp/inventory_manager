@@ -67,10 +67,10 @@ const submitForm = () => {
 </script>
 
 <template>
-    <div class="mx-auto mt-6 w-full max-w-lg rounded-xl border-t-4 border-primary-400 bg-white p-6 shadow-md">
+    <div class="w-full max-w-lg p-6 mx-auto mt-6 bg-white border-t-4 shadow-md rounded-xl border-primary-400 dark:bg-surface-900">
         <!-- Warehouse Selection -->
         <div class="mb-4">
-            <label class="mb-1 block text-sm font-medium text-gray-700">Warehouse</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Warehouse</label>
             <Dropdown
                 v-model="form.warehouse_id"
                 :options="warehouses"
@@ -83,13 +83,13 @@ const submitForm = () => {
 
         <!-- Product Selection -->
         <div class="mb-4">
-            <label class="mb-1 block text-sm font-medium text-gray-700">Product</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Product</label>
             <Dropdown v-model="form.product_id" :options="products" optionLabel="name" optionValue="id" placeholder="Select Product" class="w-full" />
         </div>
 
         <!-- Product Variant Selection -->
         <div class="mb-4" v-if="variants.length">
-            <label class="mb-1 block text-sm font-medium text-gray-700">Product Variant</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Product Variant</label>
             <Dropdown
                 v-model="form.product_variant_id"
                 :options="variants"
@@ -102,13 +102,13 @@ const submitForm = () => {
 
         <!-- Quantity Selection -->
         <div class="mb-4">
-            <label class="mb-1 block text-sm font-medium text-gray-700">Quantity</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Quantity</label>
             <InputNumber v-model="form.quantity" :min="1" class="w-full" />
         </div>
 
         <!-- Stock Type Selection -->
         <div class="mb-4">
-            <label class="mb-1 block text-sm font-medium text-gray-700">Stock Type</label>
+            <label class="block mb-1 text-sm font-medium text-gray-700">Stock Type</label>
             <Dropdown
                 v-model="form.stock_type"
                 :options="[

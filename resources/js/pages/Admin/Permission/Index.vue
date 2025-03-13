@@ -73,10 +73,17 @@ watch(
 
 <template>
     <AppLayout :no-breadcrumbs="true">
-        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 bg-white p-6 shadow-md md:w-[60%]">
+        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 p-6 shadow-md dark:bg-surface-900 md:w-[60%]">
             <Create :show="data.createOpen" @close="data.createOpen = false" :title="props.title" />
             <Edit :show="data.editOpen" @close="data.editOpen = false" :permission="data.permission" :title="props.title" />
-            <Button size="small" v-show="can(['create permission'])" label="Create" @click="data.createOpen = true" icon="pi pi-plus" />
+            <Button
+                v-if="can(['create permission'])"
+                size="small"
+                v-show="can(['create permission'])"
+                label="Create"
+                @click="data.createOpen = true"
+                icon="pi pi-plus"
+            />
             <DataTable
                 lazy
                 :value="permissions.data"

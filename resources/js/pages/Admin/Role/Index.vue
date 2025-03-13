@@ -72,7 +72,7 @@ watch(
 
 <template>
     <AppLayout>
-        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 bg-white p-6 shadow-md md:w-[55%]">
+        <div class="mx-auto mt-6 w-full rounded-xl border-t-4 border-primary-400 p-6 shadow-md dark:bg-surface-900 md:w-[55%]">
             <Create :show="data.createOpen" @close="data.createOpen = false" :title="title" :permissions="permissions" />
             <Edit :show="data.editOpen" @close="data.editOpen = false" :role="data.role" :title="title" :permissions="permissions" />
             <Button size="small" v-show="can(['create role'])" label="Create" @click="data.createOpen = true" icon="pi pi-plus" />
@@ -112,14 +112,14 @@ watch(
                         <div
                             @click="((permissionDialog = true), (data.role = slotProps.data))"
                             v-if="slotProps.data.permissions.length == permissions?.length"
-                            class="cursor-pointer whitespace-nowrap font-bold text-blue-600 underline dark:text-blue-400"
+                            class="font-bold text-blue-600 underline cursor-pointer whitespace-nowrap dark:text-blue-400"
                         >
                             All Permission
                         </div>
                         <div
                             @click="((permissionDialog = true), (data.role = slotProps.data))"
                             v-else-if="slotProps.data.permissions.length > 0"
-                            class="cursor-pointer whitespace-nowrap font-bold text-blue-600 underline dark:text-blue-400"
+                            class="font-bold text-blue-600 underline cursor-pointer whitespace-nowrap dark:text-blue-400"
                         >
                             {{ slotProps.data.permissions.length }} Permission
                         </div>
@@ -167,7 +167,7 @@ watch(
 
             <Dialog v-model:visible="permissionDialog" modal :header="'Permission for ' + data.role?.name" :style="{ width: '50rem' }">
                 <div class="grid grid-cols-2 sm:grid-cols-3">
-                    <div v-for="(permission, index) in data.role?.permissions" :key="index" class="flex w-full justify-between px-4 py-2">
+                    <div v-for="(permission, index) in data.role?.permissions" :key="index" class="flex justify-between w-full px-4 py-2">
                         {{ ++index + '. ' + permission.name }}
                     </div>
                 </div>

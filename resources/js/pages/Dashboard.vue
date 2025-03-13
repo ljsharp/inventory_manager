@@ -29,18 +29,18 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex flex-col flex-1 h-full gap-4 p-4 rounded-xl">
+        <div class="flex flex-col flex-1 h-full gap-4 p-4 text-sm rounded-xl">
             <div class="p-6">
                 <div class="grid grid-cols-3 gap-4">
-                    <Card class="shadow-md">
+                    <Card class="drop-shadow-md">
                         <template #title>Total Products</template>
                         <template #content>{{ totalProducts }}</template>
                     </Card>
-                    <Card class="shadow-md">
+                    <Card class="drop-shadow-md">
                         <template #title>Total Stock</template>
                         <template #content>{{ totalStock }}</template>
                     </Card>
-                    <Card class="shadow-md">
+                    <Card class="drop-shadow-md">
                         <template #title>Out of Stock</template>
                         <template #content>
                             <span class="text-red-500">{{ outOfStockProducts }}</span>
@@ -49,17 +49,17 @@ const breadcrumbs: BreadcrumbItem[] = [
                 </div>
 
                 <div class="grid grid-cols-2 gap-4 mt-6">
-                    <Card class="shadow-md">
+                    <Card class="drop-shadow-md">
                         <template #title>Total Warehouses</template>
                         <template #content>{{ totalWarehouses }}</template>
                     </Card>
-                    <Card class="shadow-md">
+                    <Card class="drop-shadow-md">
                         <template #title>Most Stocked Warehouse</template>
                         <template #content>{{ mostStockedWarehouse?.name || 'N/A' }}</template>
                     </Card>
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-6 shadow-md card">
                     <h2 class="text-xl font-semibold">Recent Stock Transfers</h2>
                     <DataTable :value="recentTransfers">
                         <Column field="source_warehouse_id" header="From" />
@@ -70,7 +70,7 @@ const breadcrumbs: BreadcrumbItem[] = [
                     </DataTable>
                 </div>
 
-                <div class="mt-6">
+                <div class="mt-6 shadow-md card">
                     <h2 class="text-xl font-semibold">Recent Stock Transactions</h2>
                     <DataTable :value="recentTransactions">
                         <Column field="stock_id" header="Stock ID" />

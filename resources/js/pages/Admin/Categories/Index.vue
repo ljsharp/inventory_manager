@@ -44,19 +44,26 @@ const deleteCategory = (id: number) => {
     <Head title="Categories" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="flex flex-col flex-1 w-full h-full gap-4 p-4 mx-auto my-4 border-t-4 shadow-lg rounded-xl border-primary-400 md:w-2/3">
+        <div
+            class="flex flex-col flex-1 w-full h-full gap-4 p-4 mx-auto my-4 border-t-4 shadow-lg rounded-xl border-primary-400 dark:bg-surface-900 md:w-2/3"
+        >
             <div class="p-2">
                 <h2 class="mb-4 text-xl font-bold">Categories</h2>
 
-                <Button label="Add Category" icon="pi pi-plus" size="small" class="mb-4" @click="openDialog()" />
+                <Button v-if="can(['create category'])" label="Add Category" icon="pi pi-plus" size="small" class="mb-4" @click="openDialog()" />
 
                 <DataTable :value="categories" responsiveLayout="scroll">
                     <Column field="name" header="Name"></Column>
                     <Column field="description" header="Description"></Column>
                     <Column>
                         <template #body="{ data }">
-                            <Button icon="pi pi-pencil" class="p-button-text" @click="openDialog(data)" />
-                            <Button icon="pi pi-trash" class="p-button-text p-button-danger" @click="deleteCategory(data.id)" />
+                            <Button v-if="can(['update category'])" icon="pi pi-pencil" class="p-button-text" @click="openDialog(data)" />
+                            <Button
+                                v-if="can(['delete category'])"
+                                icon="pi pi-trash"
+                                class="p-button-text p-button-danger"
+                                @click="deleteCategory(data.id)"
+                            />
                         </template>
                     </Column>
                 </DataTable>

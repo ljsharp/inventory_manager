@@ -75,7 +75,7 @@ const onBack = () => {
 </script>
 
 <template>
-    <div class="mx-5 my-4 flex h-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg md:w-[80px]">
+    <div class="mx-5 my-4 flex h-full flex-1 flex-col gap-4 rounded-xl border-t-4 border-primary-400 p-4 shadow-lg dark:bg-surface-900 md:w-[80px]">
         <Head title="Stock Transactions" />
         <div class="flex items-center gap-5">
             <Button icon="pi pi-arrow-left" severity="success" aria-label="Back" @click="onBack" />
