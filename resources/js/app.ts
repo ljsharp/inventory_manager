@@ -25,7 +25,7 @@ declare module 'vite/client' {
     }
 }
 
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || 'Inventory Manager';
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -46,6 +46,18 @@ createInertiaApp({
                 },
             })
             .use(ToastService)
+            .mixin({
+                methods: {
+                    can: function (permissions: string[]) {
+                        const allPermissions = this.$page.props.auth.can;
+                        let hasPermission = false;
+                        permissions.forEach(function (item) {
+                            if (allPermissions[item]) hasPermission = true;
+                        });
+                        return hasPermission;
+                    },
+                },
+            })
             .mount(el);
     },
     progress: {
