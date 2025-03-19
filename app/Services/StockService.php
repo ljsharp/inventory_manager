@@ -2,9 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+use App\Models\ProductVariant;
 use App\Models\Stock;
 use App\Models\StockTransaction;
 use App\Models\StockTransfer;
+use App\Models\Warehouse;
 use Illuminate\Support\Facades\DB;
 use Exception;
 use Illuminate\Validation\ValidationException;
@@ -18,7 +21,7 @@ class StockService
      * @return StockTransaction
      * @throws ValidationException
      */
-    static public function handleStockAdjustment(array $data): StockTransaction
+    public static function handleStockAdjustment(array $data): StockTransaction
     {
         return DB::transaction(function () use ($data) {
             // Find stock based on product or variant
@@ -78,7 +81,7 @@ class StockService
      * @param array $data
      * @throws ValidationException
      */
-    static public function transferStocks(array $data, $sourceWarehouseId, $destinationWarehouseId): void
+    public static function transferStocks(array $data, $sourceWarehouseId, $destinationWarehouseId): void
     {
         DB::transaction(function () use ($data, $sourceWarehouseId, $destinationWarehouseId) {
             foreach ($data['transfers'] as $transfer) {
@@ -92,7 +95,24 @@ class StockService
                     'warehouse_id' => $sourceWarehouseId,
                     'product_id' => $productId,
                     'product_variant_id' => $variantId,
-                ])->firstOrFail();
+                ])->first();
+
+                if (!$sourceStock) {
+                    $item = null;
+                    $itemName = null;
+                    $sourceStockWarehouse = Warehouse::whereId($sourceWarehouseId)->first();
+                    if ($variantId) {
+                        $item = ProductVariant::with('product')->whereId($variantId)->first();
+                        $itemName = $item->product->name . " " . $item->name;
+                    } else {
+                        $item = Product::whereId($productId)->first();
+                        $itemName = $item->name;
+                    }
+
+                    throw ValidationException::withMessages([
+                        'message' => "Stock for {$itemName} not found in {$sourceStockWarehouse->name}.",
+                    ]);
+                }
 
                 // Ensure source warehouse has enough stock
                 if ($sourceStock->quantity < $quantity) {
